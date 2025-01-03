@@ -46,16 +46,12 @@ import tensorflow as tf
 
 
 def relprop(model, nn_outputs, pos_weights_only=True, alpha=1.0):
-    # print("nn_outputs: ", nn_outputs)
     predictions = nn_outputs["pred_y"].to_numpy(copy=True)
     # data should only be the node values
     data = nn_outputs.drop(columns=["true_y", "pred_y"]).copy(deep=True)
-    # print("data: \n", data)
     data_len = len(data.index)
     headers=[*data]
     relevance_values = pd.DataFrame(columns=headers)
-    # print(relevance_values)
-
 
     # iterate over NN input data
     for k in range(data_len):
@@ -71,7 +67,6 @@ def relprop(model, nn_outputs, pos_weights_only=True, alpha=1.0):
 
         # predicted class gets relevance 1.0, others 0.0
         rel_vals_row[int(predictions[k])] = 1.0
-        # print("rel_vals_row: ", rel_vals_row)
 
         # iterate reversely over hidden layers
         # for idx_rev, layer in enumerate(model_cp.layers[::-1]):
@@ -84,13 +79,6 @@ def relprop(model, nn_outputs, pos_weights_only=True, alpha=1.0):
             # activation values of current layer (l)
             a = row[-len(rel_vals_row)-W.shape[0]:-len(rel_vals_row)].to_numpy()
             
-            # print("")
-            # print("layer: ", idx)
-            # print("#############")
-            # print("weight matrix: \n", W)
-            # print("biases: \n", b)
-            # print("activation values: \n", a)
-            # exit()
 
             rel_vals_current_layer = np.zeros(W.shape[0])
             for j in range(W.shape[1]):
@@ -122,25 +110,11 @@ def relprop(model, nn_outputs, pos_weights_only=True, alpha=1.0):
                     Rij_pos, Rij_neg = aiwij_pos*R_j/(sum_i_pos*rcf), aiwij_neg*R_j/(sum_i_neg*rcf)
                     rel_vals_current_layer = np.nansum(np.stack((alpha*Rij_pos, (1.0-alpha)*Rij_neg, rel_vals_current_layer)), axis=0)
 
-                # print("R_j: ", R_j)
-                # print("col_j of weight matrix: ", col_j)
-                # print("activation values: \n", a)
-                # print("aiwij_pos: ", aiwij_pos)
-                # print("sum_i_pos: ", sum_i_pos, "at node", j)
-                # print("aiwij_neg: ", aiwij_neg)
-                # print("sum_i_neg: ", sum_i_neg, "at node", j)
-                # print(" Rij_pos, Rij_neg: ",  Rij_pos, Rij_neg)
-                # print("np.nansum(np.stack((0.5*Rij_pos, 0.5*Rij_neg)), axis=0): \n", np.nansum(np.stack((0.5*Rij_pos, 0.5*Rij_neg)), axis=0))
-                # print("rel_vals_current_layer: \n", rel_vals_current_layer)
 
             rel_vals_row = rel_vals_current_layer.tolist() + rel_vals_row
-            # print("rel_vals_row: \n", rel_vals_row)
-            # exit()
 
         relevance_values.loc[len(relevance_values)] = rel_vals_row
-        # print("")
-        # print("relevance_values: \n", relevance_values)
-        # exit()
+
     return relevance_values
 
 

@@ -28,24 +28,16 @@ from statsmodels.distributions.copula.api import IndependenceCopula
 
 # def get_pseudo_observations(path):
 def get_pseudo_observations(df):
-    # df = pd.read_csv(path)
-
-
-    # print("original nn output: \n", df.head(10))
-    # print("")
+   
     headers = [*df]
-    # print("headers: \n", headers)
-    # print("")
+   
     # calculate pseudo-observations, excluding last two columns (GT and predicted class)
     df_pseudo_obs = pd.DataFrame()
     for header in headers[:-2]:
         col = df[header].to_numpy()
         # statsmodels version
         df_pseudo_obs[header] = ECDF(col, side="right")(col)
-        # # scipy version
-        # df_pseudo_obs[header] = ecdf(col).cdf.evaluate(col)
-    # print("df_pseudo_obs.head(10): \n", df_pseudo_obs.head(10))
-    # print("")
+       
     return df_pseudo_obs, headers
 
 def scatterplot_3d(x, y, z, labels=None, title=None):
@@ -112,9 +104,7 @@ def numerical_correlation(pseudo_obs1, pseudo_obs2, headers, grid_size=100, plot
     # # first version without adjusted KDE
     # copula_cdf_vals_mesh = copula.cdf(meshpoints)
 
-    # # try with scipy
-    # copula_scipy_cdf_vals_mesh = np.array([copula_scipy.integrate_box([0.0, 0.0], [x, y]) for (x, y) in zip(xs, ys)])
-    # copula_cdf_vals_mesh = copula_scipy_cdf_vals_mesh
+
 
     if plot:
         x, y, z = xs, ys, copula_cdf_vals_mesh

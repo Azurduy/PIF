@@ -29,17 +29,11 @@ def prune(model, nodes_to_be_pruned):
         node_idx = int(split[1])
         weights = model.layers[node_layer].get_weights()[0]
         biases = model.layers[node_layer].get_weights()[1]
-        # print("weights: \n", weights)
-        # print("biases: \n", biases)
 
         # set weights of node to be "pruned" to zero
         weights[node_idx] = 0.0
         model.layers[node_layer].set_weights([weights, biases])
-        # weights = model.layers[node_layer].get_weights()[0]
-        # print("weights: \n", weights)
-        # print("model.layers: ", model.layers)
-
-        # exit()
+       
     return model
 
 
@@ -79,13 +73,6 @@ def prune_deep(model, nodes_to_be_pruned, train_layers_last=3):
       
     node_counts = [w.shape[1] for w in weights] # per layer (from input to output)
 
-    # print("")
-    # print("prune deep")
-    # print("new node counts per layer: ", node_counts)
-    # print("new weights: \n", weights)
-    # print("new biases: \n", biases)
-    # print("")
-
 
     # creating sequential model
     # initialize layer accumulator
@@ -98,11 +85,6 @@ def prune_deep(model, nodes_to_be_pruned, train_layers_last=3):
     new_layers += [tf.keras.layers.Dense(3, activation=tf.nn.softmax, use_bias=True)]
     new_model = tf.keras.models.Sequential(new_layers)
 
-    # weights_before = [layer.get_weights()[0] for layer in new_model.layers]
-    # biases_before = [layer.get_weights()[1] for layer in new_model.layers]
-    # print("weights before weight setting: \n", weights_before)
-    # print("biases before weight setting: \n", biases_before)
-    # print("")
 
     # set weights
     zero_count = 0
@@ -123,18 +105,13 @@ def prune_deep(model, nodes_to_be_pruned, train_layers_last=3):
         except: pass
 
 
-            
+          
     new_model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
     #optimizer=tf.keras.optimizers.SGD(learning_rate=0.001),
     loss='categorical_crossentropy',
     metrics=['accuracy'],)
 
-
-    # weights = new_model.layers[node_layer].get_weights()[0]
-    # biases = new_model.layers[node_layer].get_weights()[1]
-    # # print("weights: \n", weights)
-    # # print("biases: \n", biases)
 
     return new_model
 
@@ -158,18 +135,6 @@ def get_accuracy(model, features, targets, predictions, threshold=0.5):
     # predictions = model.predict(features)
     predictions_bin = (predictions > threshold).astype(float)
     accuracy = 1 - 0.5*np.sum((predictions_bin-targets)**2)/np.sum(targets)
-
-    # print("")
-    # print("in get_accuracy")
-    # print("---------------")
-    # print("predictions: \n", predictions)
-    # # print("argmax(predictions): \n", np.argmax(predictions, axis=1))
-    # print("predictions_bin: \n", predictions_bin)
-    # print("targets: \n", targets)
-    # print("accuracy: \n", accuracy)
-    # print("NEW pre accuracy: \n", np.argmax(predictions, axis=1)==np.argmax(targets, axis=1))
-    # print("")
-    # exit()
 
     return accuracy
 

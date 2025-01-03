@@ -32,18 +32,12 @@ def get_activation_values(model, nodes, features, targets, filename=None):
     intermediate_output = get_output_of_hidden_nodes(features, hidden_layer_models)
     predictions = model.predict(features)
     category = get_y(targets, predictions)
-    # activals = dump_results(features, intermediate_output, predictions, category, nodes, filename='./inout/nn_outputs_temp.csv' )
     activals = dump_results(features, intermediate_output, predictions, category, nodes, filename=filename)
     return activals
 
 def get_correlation_matrix(correlation_indicator, activals, save_as=None):
-    # df_pseudo_obs, headers = get_pseudo_observations('./inout/nn_outputs_temp.csv')
+    
     df_pseudo_obs, headers = get_pseudo_observations(activals)
-
-    # # test of correlation values 
-    # # select test-data of 2 variables
-    # pseudo_obs1, pseudo_obs2 = df_pseudo_obs[headers[0]].to_numpy(), df_pseudo_obs[headers[1]].to_numpy()
-    # test_correlation_indicators(pseudo_obs1, pseudo_obs2, headers[:2])
 
     cm = get_cm(df_pseudo_obs, headers, correlation_indicator)                
     # replace weired values with np.nan
@@ -111,14 +105,8 @@ def seq_prune(node_count_2b_pruned, correlation_indicator, current_model,
         sorted_scores = get_node_scores(hidden_nodes_all, active_hidden_nodes, CM)
         # least important node
         node_2b_pruned = list(sorted_scores)[-1]
-        # print("")
-        # print("pruning stage:", i)
-        # # print("current_nodes: \n", current_nodes)
-        # print("node_2b_pruned: ", node_2b_pruned)
-
         active_hidden_nodes.remove(node_2b_pruned)
-        # print("active_hidden_nodes: \n", active_hidden_nodes)
-        
+
         nodes_to_be_pruned = [node_2b_pruned]
         current_model = copy.deepcopy(prune(current_model, nodes_to_be_pruned))
         to_be_pruned += [node_2b_pruned]
