@@ -1,3 +1,11 @@
+"""
+This module compares different pruning methods
+based on performance measures (accuracy & distance).
+
+author: Florian Heitmann
+flowbiker@hotmail.de
+
+
 ##############
 # pseudocode #
 ##############
@@ -15,6 +23,9 @@
 # got to i) until finalization condition
 # v)
 # save performance metrics and generate boxplot
+# alternatively: read performance metrics and generate boxplot
+"""
+
 
 from train_nn_iris import *
 from cm import *

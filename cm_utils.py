@@ -1,3 +1,12 @@
+"""
+This module contains helper functions 
+for cm.py.
+
+author: Florian Heitmann
+flowbiker@hotmail.de
+"""
+
+
 import copy
 import numpy as np
 import pandas as pd

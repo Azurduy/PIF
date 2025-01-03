@@ -1,9 +1,17 @@
-# implementation of the relevance propagation Ansatz (based on Bach, Yeom)
+"""
+This module is an implementation of the relevance propagation Ansatz
+applied for pruning.
+based on:
+i) 
+Bach, Sebastian et al. (July 2015). 'On Pixel-Wise Explanations for Non-Linear Classifier
+Decisions by Layer-Wise Relevance Propagation'
+ii)
+Yeom, Seul-Ki et al. (2021). 'Pruning by explaining: A novel criterion for deep neural network
+pruning'
 
-import copy
-import numpy as np
-import pandas as pd
-import tensorflow as tf
+
+author: Florian Heitmann
+flowbiker@hotmail.de
 
 
 ##############
@@ -23,6 +31,16 @@ import tensorflow as tf
 # for node on nodes:
 #     score = sum up relevance values
 # sort nodes with scores
+
+"""
+
+import copy
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+
+
+
 
 
 

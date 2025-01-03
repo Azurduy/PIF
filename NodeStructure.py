@@ -1,3 +1,15 @@
+"""
+This module is mostly identical (with a few modifications) 
+to the originals from 
+https://github.com/covit2019/analysis_codes
+corresponding to 
+Kubo, Yusuke et al. (2020). 'A copula-based visualization technique for a neural network'.
+
+secondary author: Florian Heitmann
+flowbiker@hotmail.de
+"""
+
+
 from copy import deepcopy
 import numpy as np
 
