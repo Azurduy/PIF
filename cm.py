@@ -1,3 +1,12 @@
+"""
+This module calculates a correlation matrix
+based on different correlation coefficients.
+
+author: Florian Heitmann
+flowbiker@hotmail.de
+"""
+
+
 from cm_utils import *
 
 

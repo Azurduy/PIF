@@ -1,5 +1,9 @@
-# sequential pruning specific nodes of the NN 
-# by setting corresponding weights to zero
+"""
+Implementation of the sequential pruning approach
+by setting corresponding weights to zero
+
+author: Florian Heitmann
+flowbiker@hotmail.de
 
 ##############
 # pseudocode #
@@ -13,6 +17,7 @@
 # get node activation values of pruned model
 # iv)
 # repeat until finalization condition
+"""
 
 
 from train_nn_iris import *

@@ -1,5 +1,17 @@
-# prune specific nodes of the NN 
-# by setting corresponding weights to zero
+"""
+This module provides tools to
+prune specific nodes of a nural network,
+i) by setting corresponding weights to zero
+ii) by deep pruning
+
+includes performance measures (accuracy & distance)
+
+author: Florian Heitmann
+flowbiker@hotmail.de
+"""
+
+
+
 
 import copy
 import pickle
